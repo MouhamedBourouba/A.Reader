@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id 'com.google.gms.google-services'
 }
 
 android {
@@ -64,11 +63,13 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
 
-    // FireBase
-    implementation platform('com.google.firebase:firebase-bom:30.1.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-database'
+//    // FireBase
+//    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-auth-ktx'
+//    implementation 'com.google.firebase:firebase-database-ktx'
+//    implementation 'com.google.firebase:firebase-firestore-ktx'
+
 
 
     //Dagger - Hilt
@@ -105,6 +106,9 @@ dependencies {
     // Room
     implementation 'androidx.room:room-runtime:2.4.2'
     implementation 'androidx.room:room-ktx:2.4.2'
+
+    // DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
 
     // To use Kotlin annotation processing tool

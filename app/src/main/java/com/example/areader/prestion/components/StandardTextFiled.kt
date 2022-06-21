@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -40,18 +37,26 @@ fun StandardTextFiled(
     val isVisible = remember {
         mutableStateOf(false)
     }
+    val isTextFieldSelected = remember {
+        mutableStateOf(false)
+    }
 
     AReaderTheme {
-        TextField(
+        OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 15.dp),
             value = value,
             onValueChange = onChangeListener,
-            placeholder = { Text(text = placeholder) },
-            leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null) },
+            label = { Text(text = placeholder) },
+            leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null, ) },
             keyboardActions = KeyboardActions(onDone = { keyboard?.hide() }),
             maxLines = 1,
+            colors = TextFieldDefaults.textFieldColors(
+                focusedLabelColor = MaterialTheme.colors.secondary,
+                backgroundColor = Color.Transparent,
+                focusedIndicatorColor = MaterialTheme.colors.secondary
+            ),
             keyboardOptions =
             if (isPasswordTextFieldValue) KeyboardOptions(keyboardType = KeyboardType.Password)
             else KeyboardOptions(

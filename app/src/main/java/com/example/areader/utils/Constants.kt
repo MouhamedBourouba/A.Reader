@@ -1,6 +1,6 @@
 package com.example.areader.utils
 
 object Constants {
-     const val BASE_URL = "https://www.googleapis.com/books/v1/"
-     const val API_KEY = ""
+     const val BASE_URL = "http://192.168.1.11:8080"
+     const val TAG = "TAG"
 }

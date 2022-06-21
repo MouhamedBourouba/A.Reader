@@ -19,7 +19,7 @@ fun ShowLogo() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Image(
             modifier = Modifier
-                .size(120.dp),
+                .size(100.dp),
             painter = painterResource(id = R.drawable.book),
             contentDescription = null
         )
