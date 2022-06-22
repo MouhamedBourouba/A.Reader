@@ -46,7 +46,7 @@ fun StandardTextFiled(
             value = value,
             onValueChange = onChangeListener,
             label = { Text(text = placeholder) },
-            leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null, ) },
+            leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null, tint = Color.Black.copy(0.8f)) },
             keyboardActions = KeyboardActions(onDone = { keyboard?.hide() }),
             maxLines = 1,
             colors = TextFieldDefaults.textFieldColors(

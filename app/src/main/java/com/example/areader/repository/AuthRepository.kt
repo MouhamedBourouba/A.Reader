@@ -8,7 +8,7 @@ import com.example.areader.data.Dto.AuthDto.SingInResponse
 import com.example.areader.data.Dto.AuthDto.SingUpResponse
 import com.example.areader.data.Dto.AuthDto.UserResponse
 
-interface Repository {
+interface AuthRepository {
     suspend fun singUp(singUpAuthRequest: SingUpAuthRequest): AuthResult<SingUpResponse>
     suspend fun singIn(singInAuthRequest: SingInAuthRequest): AuthResult<SingInResponse>
     suspend fun getUser(tokenRequest: TokenRequest): AuthResult<UserResponse>

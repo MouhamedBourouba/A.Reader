@@ -13,8 +13,8 @@ import com.example.areader.data.Dto.AuthDto.UserResponse
 import com.example.areader.utils.Constants.TAG
 import retrofit2.HttpException
 
-class RepositoryImp(private var api: Api, private var sharedPreferences: SharedPreferences) :
-    Repository {
+class AuthRepositoryImp(private var api: Api, private var sharedPreferences: SharedPreferences) :
+    AuthRepository {
     override suspend fun singUp(singUpAuthRequest: SingUpAuthRequest): AuthResult<SingUpResponse> {
         return try {
 

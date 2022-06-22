@@ -11,7 +11,7 @@ import com.example.areader.data.request.auth.SingInAuthRequest
 import com.example.areader.data.request.auth.SingUpAuthRequest
 import com.example.areader.data.Dto.AuthDto.SingInResponse
 import com.example.areader.data.Dto.AuthDto.SingUpResponse
-import com.example.areader.repository.Repository
+import com.example.areader.repository.AuthRepository
 import com.example.areader.utils.Constants.TAG
 import com.example.areader.utils.TextUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val repository: Repository,
+    private val authRepository: AuthRepository,
     private val textUtils: TextUtils,
     ) : ViewModel() {
 
@@ -98,7 +98,7 @@ class AuthViewModel @Inject constructor(
         Log.d(TAG, "loginWithEmailAndPassword: trying to login")
         loginState = loginState.copy(isLoading = true)
 
-        val isSuccess = repository.singIn(singInAuthRequest)
+        val isSuccess = authRepository.singIn(singInAuthRequest)
 
         singInChannel.send(isSuccess)
 
@@ -114,7 +114,7 @@ class AuthViewModel @Inject constructor(
         loginState = loginState.copy(isLoading = true)
         if (textUtils.isValidEmail(user.email)) {
 
-            val authResult = repository.singUp(user)
+            val authResult = authRepository.singUp(user)
             singUpChannel.send(authResult)
 
         } else {
@@ -126,7 +126,7 @@ class AuthViewModel @Inject constructor(
 
     private fun authenticate() {
         viewModelScope.launch {
-            isAuthenticate = repository.isAuthenticate()
+            isAuthenticate = authRepository.isAuthenticate()
         }
     }
 }

@@ -29,7 +29,7 @@ fun Navigation() {
             SplashScreen(navHost)
         }
         composable(route = Screens.Search.route) {
-            SearchScreen()
+            SearchScreen(navHost)
         }
     }
 

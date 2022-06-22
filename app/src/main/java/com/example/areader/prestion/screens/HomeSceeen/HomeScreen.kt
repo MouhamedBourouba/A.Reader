@@ -32,10 +32,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.areader.R
 import com.example.areader.model.MBook
-import com.example.areader.prestion.components.BookRating
-import com.example.areader.prestion.components.RoundedButton
-import com.example.areader.prestion.components.ShowBookImage
-import com.example.areader.prestion.components.ShowBookTitleAndAuthor
+import com.example.areader.prestion.components.*
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenUiEvent
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenViewModel
 import com.example.areader.prestion.theme.AReaderTheme
@@ -89,11 +86,7 @@ fun Home(viewModel: HomeScreenViewModel, navController: NavController) {
                                 contentDescription = null,
                                 tint = Color.Unspecified,
                             )
-                            Text(
-                                text = "A.Reader",
-                                color = MaterialTheme.colors.secondary,
-                                fontSize = 19.sp
-                            )
+                            AppBarTitle("A.Reader")
 
                         }
 
