@@ -46,6 +46,7 @@ fun ShowRegister(
         viewModel.singUpResult.collect {
             when(it) {
                 is AuthResult.Authorized -> {
+                    navController.popBackStack()
                     navController.navigate(Screens.Home.route)
                 }
                 is AuthResult.UnAuthorized -> {
@@ -132,7 +133,7 @@ fun ShowRegister(
 
 
                     Box(modifier = Modifier.align(Alignment.End)) {
-                        StandardButton(buttonText = "singUp") {
+                        StandardButton(buttonText = "singUp", isEnabled = viewModel.loginState.isSingUpButtonEnabled) {
 
                             viewModel.onEvent(AuthScreenUiEvent.SingUp)
 

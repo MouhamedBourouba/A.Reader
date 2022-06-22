@@ -8,4 +8,6 @@ data class LoginScreenState(
     var registerUserNameText: String = "",
     var registerEmailText: String = "",
     var registerPasswordText: String = "",
+    var isSingInButtonEnabled: Boolean = false,
+    var isSingUpButtonEnabled: Boolean = false,
 )

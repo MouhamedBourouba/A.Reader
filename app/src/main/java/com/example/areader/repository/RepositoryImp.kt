@@ -72,7 +72,7 @@ class RepositoryImp(private var api: Api, private var sharedPreferences: SharedP
             AuthResult.UnAuthorized(error)
 
         } catch (e: Exception) {
-
+            Log.d(TAG, "singIn: $e")
             AuthResult.UnknownError()
 
         }
@@ -95,24 +95,11 @@ class RepositoryImp(private var api: Api, private var sharedPreferences: SharedP
 
     override suspend fun isAuthenticate(): Boolean {
         return try {
-            if (sharedPreferences.getString("jwt", null) != null) {
-                try {
-                    true
-                } catch (e: Exception) {
-                    true
-                }
-            } else {
-                val tokenFromPreferences =
-                    sharedPreferences.getString("jwt", null) ?: AuthResult.UnAuthorized<Unit>()
-
-                api.authenticate("Bearer $tokenFromPreferences")
-                true
-            }
-
+            val token  = sharedPreferences.getString("jwt", null) ?: false
+            api.authenticate("Bearer $token")
+            true
         } catch (e: Exception) {
-
             false
-
         }
     }
 }

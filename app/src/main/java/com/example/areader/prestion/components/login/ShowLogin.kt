@@ -47,10 +47,15 @@ fun ShowLogin(
         viewModel.singInResult.collect {
             when (it) {
                 is AuthResult.Authorized -> {
+                    navController.popBackStack()
                     navController.navigate(Screens.Home.route)
                 }
                 is AuthResult.UnAuthorized -> Toasty.error(context, it.message.toString()).show()
-                is AuthResult.UnknownError -> Toasty.error(context, it.message.toString()).show()
+                is AuthResult.UnknownError -> Toasty.error(
+                    context,
+                    "Looks like you don't have internet connection !!",
+                    Toasty.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -118,10 +123,8 @@ fun ShowLogin(
 
 
                     Box(modifier = Modifier.align(Alignment.End)) {
-                        StandardButton(buttonText = "singIn") {
-
+                        StandardButton(buttonText = "singIn", isEnabled = viewModel.loginState.isSingInButtonEnabled ) {
                             viewModel.onEvent(authEvent = AuthScreenUiEvent.SingIn)
-
                         }
                     }
                 }

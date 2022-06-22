@@ -30,14 +30,11 @@ fun StandardTextFiled(
     placeholder: String,
     leadingIcon: ImageVector,
     isPasswordTextFieldValue: Boolean = false,
-    keyboardType: KeyboardType = KeyboardType.Text
+    keyboardType: KeyboardType = KeyboardType.Text,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
 
     val isVisible = remember {
-        mutableStateOf(false)
-    }
-    val isTextFieldSelected = remember {
         mutableStateOf(false)
     }
 

@@ -8,6 +8,7 @@ import com.example.areader.api.Api
 import com.example.areader.repository.Repository
 import com.example.areader.repository.RepositoryImp
 import com.example.areader.utils.Constants.BASE_URL
+import com.example.areader.utils.TextUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,6 +39,13 @@ object AppModel {
     @Provides
     fun providesRepository(api: Api, sharedPreferences: SharedPreferences): Repository {
         return RepositoryImp(api, sharedPreferences)
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesTextUtils(): TextUtils {
+        return TextUtils()
     }
 
 }

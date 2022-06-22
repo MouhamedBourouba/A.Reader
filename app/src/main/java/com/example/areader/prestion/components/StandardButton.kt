@@ -17,7 +17,8 @@ import com.example.areader.prestion.theme.AReaderTheme
 @Composable
 fun StandardButton(
     buttonText: String,
-    onClick: () -> Unit
+    isEnabled: Boolean,
+    onClick: () -> Unit,
 ) {
     AReaderTheme {
         Button(
@@ -27,8 +28,11 @@ fun StandardButton(
             onClick = { onClick.invoke() },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.primary,
-                contentColor = Color.White
-            )
+                contentColor = Color.White,
+                disabledBackgroundColor = MaterialTheme.colors.primary.copy(0.3f),
+                disabledContentColor = MaterialTheme.colors.primary.copy(0.6f)
+            ),
+            enabled = isEnabled
         ) {
             Text(
                 text = buttonText,

@@ -47,7 +47,7 @@ fun HomeScreen(
     val context = LocalContext.current
 
     AReaderTheme {
-        Text(text = "gg")
+        Home(viewModel = viewModel, navController = navController)
     }
 }
 
@@ -89,7 +89,7 @@ fun Home(viewModel: HomeScreenViewModel, navController: NavController) {
                         }
 
                         IconButton(onClick = {
-                            viewModel.singOut()
+                            viewModel
                             navController.popBackStack()
                             navController.navigate(Screens.Login.route)
                         }) {
