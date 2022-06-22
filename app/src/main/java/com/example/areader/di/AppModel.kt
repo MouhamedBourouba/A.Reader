@@ -4,7 +4,7 @@ package com.example.areader.di
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.example.areader.api.Api
+import com.example.areader.data.api.Api
 import com.example.areader.repository.Repository
 import com.example.areader.repository.RepositoryImp
 import com.example.areader.utils.Constants.BASE_URL

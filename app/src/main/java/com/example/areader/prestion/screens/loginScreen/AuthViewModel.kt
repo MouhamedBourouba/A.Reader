@@ -1,17 +1,16 @@
 package com.example.areader.prestion.screens.loginScreen
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.areader.data.auth.AuthResult
-import com.example.areader.data.auth.request.SingInAuthRequest
-import com.example.areader.data.auth.request.SingUpAuthRequest
-import com.example.areader.data.auth.response.SingInResponse
-import com.example.areader.data.auth.response.SingUpResponse
+import com.example.areader.data.AuthResult
+import com.example.areader.data.request.auth.SingInAuthRequest
+import com.example.areader.data.request.auth.SingUpAuthRequest
+import com.example.areader.data.Dto.AuthDto.SingInResponse
+import com.example.areader.data.Dto.AuthDto.SingUpResponse
 import com.example.areader.repository.Repository
 import com.example.areader.utils.Constants.TAG
 import com.example.areader.utils.TextUtils

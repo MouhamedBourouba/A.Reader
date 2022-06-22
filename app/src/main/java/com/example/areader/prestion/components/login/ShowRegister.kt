@@ -25,10 +25,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.areader.data.auth.AuthResult
+import com.example.areader.data.AuthResult
 import com.example.areader.prestion.screens.loginScreen.AuthScreenUiEvent
-import com.example.areader.prestion.theme.AReaderTheme
 import com.example.areader.prestion.screens.loginScreen.AuthViewModel
+import com.example.areader.prestion.theme.AReaderTheme
 import com.example.areader.utils.Screens
 import es.dmoral.toasty.Toasty
 
@@ -44,7 +44,7 @@ fun ShowRegister(
     val context = LocalContext.current
     LaunchedEffect(key1 = viewModel, key2 = context) {
         viewModel.singUpResult.collect {
-            when(it) {
+            when (it) {
                 is AuthResult.Authorized -> {
                     navController.popBackStack()
                     navController.navigate(Screens.Home.route)
@@ -133,7 +133,10 @@ fun ShowRegister(
 
 
                     Box(modifier = Modifier.align(Alignment.End)) {
-                        StandardButton(buttonText = "singUp", isEnabled = viewModel.loginState.isSingUpButtonEnabled) {
+                        StandardButton(
+                            buttonText = "singUp",
+                            isEnabled = viewModel.loginState.isSingUpButtonEnabled
+                        ) {
 
                             viewModel.onEvent(AuthScreenUiEvent.SingUp)
 

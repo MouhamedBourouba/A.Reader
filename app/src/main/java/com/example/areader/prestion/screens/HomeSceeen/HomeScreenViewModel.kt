@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.areader.data.auth.request.TokenRequest
-import com.example.areader.data.auth.response.UserResponse
+import com.example.areader.data.request.auth.TokenRequest
+import com.example.areader.data.Dto.AuthDto.UserResponse
 import com.example.areader.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

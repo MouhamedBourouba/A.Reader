@@ -1,41 +1,41 @@
 package com.example.areader.prestion.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Logout
-import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.toFontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
 import com.example.areader.R
 import com.example.areader.model.MBook
+import com.example.areader.prestion.components.BookRating
+import com.example.areader.prestion.components.RoundedButton
+import com.example.areader.prestion.components.ShowBookImage
+import com.example.areader.prestion.components.ShowBookTitleAndAuthor
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenUiEvent
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenViewModel
 import com.example.areader.prestion.theme.AReaderTheme
@@ -99,15 +99,13 @@ fun Home(viewModel: HomeScreenViewModel, navController: NavController) {
 
                         IconButton(onClick = {
                             viewModel.onEvent(HomeScreenUiEvent.SingOut)
-                            navController.popBackStack()
-                            navController.navigate(Screens.Login.route)
                         }) {
                             Icon(
                                 modifier = Modifier
                                     .size(30.dp),
                                 imageVector = Icons.Outlined.Logout,
                                 contentDescription = null,
-                                tint = MaterialTheme.colors.secondaryVariant
+                                tint = MaterialTheme.colors.secondary
                             )
                         }
                     }
@@ -117,7 +115,7 @@ fun Home(viewModel: HomeScreenViewModel, navController: NavController) {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-
+                              navController.navigate(Screens.Search.route)
                     },
                     backgroundColor = MaterialTheme.colors.primary
                 ) {
@@ -146,6 +144,7 @@ fun HomeContent(viewModel: HomeScreenViewModel) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainContent(
     viewModel: HomeScreenViewModel
@@ -158,6 +157,7 @@ fun MainContent(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.Start
     ) {
+
         // Show Account And Title
         Row(
             modifier = Modifier
@@ -189,49 +189,100 @@ fun MainContent(
             }
         }
 
+        val bookList = remember {
+            mutableListOf(
+                MBook(72, true, title ="theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(3, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(484, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(587, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(6 + 98, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(7, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(8 + 5, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(9, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(10, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(19871, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(1872, true, "theHero", "theHero Author", isReading = true, rate = 3.2)
+            )
+        }
+
         Spacer(modifier = Modifier.padding(top = 8.dp))
 
-        Row(
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState(),)
-        ) {
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
+
+        LazyRow() {
+            items(bookList, key = { it.id }) {
+                BookCard()
+                Spacer(modifier = Modifier.width(16.dp))
+            }
         }
-        
+
         Spacer(modifier = Modifier.height(8.dp))
+
         ShowTitle(title = "Pending List")
-    
-        Row(
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-        ) {
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
-            BookCard()
-            Spacer(modifier = Modifier.width(12.dp))
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        LazyRow() {
+            items(bookList) {
+                BookCard()
+                Spacer(modifier = Modifier.width(16.dp))
+            }
         }
-        
+
     }
 }
+
+
+@Composable
+fun BookCard(
+    book: MBook = MBook(1, true, "the true hero", "Islam", isReading = true),
+    onPressed: (Int) -> Unit = {}
+) {
+    val context = LocalContext.current
+    val resources = context.resources
+    val displayMatrix = resources.displayMetrics
+    val screenWidth = displayMatrix.widthPixels / displayMatrix.density
+
+    AReaderTheme {
+        Card(
+            modifier = Modifier
+                .height(242.dp)
+                .width(202.dp)
+                .clickable { onPressed.invoke(book.id) },
+            shape = RoundedCornerShape(29.dp),
+            backgroundColor = Color.White
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width((screenWidth - 20).dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Top
+                ) {
+                    ShowBookImage(imageUrl = book.imageUrl)
+                    BookRating(book.rate.toString(), book.isLiked)
+                }
+
+                ShowBookTitleAndAuthor(book.title, author = book.authors.toString())
+
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.Bottom,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    RoundedButton()
+                }
+            }
+        }
+    }
+
+}
+
 
 @Composable
 fun ShowTitle(title: String) {
@@ -242,153 +293,5 @@ fun ShowTitle(title: String) {
     )
 }
 
-@Composable
-fun ShowBookTitleAndAuthor(bookTitle: String, author: String) {
-    Column {
-        ShowBootTitle(bookTitle = bookTitle)
-        ShowAuthor(author = author)
-    }
-}
 
-@Composable
-fun ShowBootTitle(bookTitle: String) {
-    Text(
-        modifier = Modifier.padding(start = 10.dp),
-        text = bookTitle,
-        style = MaterialTheme.typography.subtitle2.copy(
-            fontWeight = FontWeight.Bold,
-            fontFamily = Font(R.font.joan_regular).toFontFamily()
-        )
-    )
-}
-
-@Composable
-fun ShowAuthor(author: String) {
-    Text(
-        modifier = Modifier.padding(start = 10.dp),
-        text = author,
-        style = MaterialTheme.typography.caption
-    )
-}
-
-
-@Preview
-@Composable
-fun BookCard(
-    book: MBook = MBook("f", "Why Android", "Islam", "OH hey"),
-    onPressed: (String) -> Unit = {}
-) {
-    val context = LocalContext.current
-    val resources = context.resources
-    val displayMatrix = resources.displayMetrics
-    val screenWidth = displayMatrix.widthPixels / displayMatrix.density
-
-
-    Card(
-        modifier = Modifier
-            .height(242.dp)
-            .width(202.dp)
-            .clickable() { onPressed.invoke(book.id.toString()) },
-        elevation = 6.dp,
-        shape = RoundedCornerShape(29.dp),
-        backgroundColor = Color.White
-    ) {
-        Column(
-            modifier = Modifier
-                .width((screenWidth - 20).dp)
-                .padding(bottom = 24.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(6.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
-            ) {
-
-                ShowBookImage(imageUrl = "http://books.google.com/books/content?id=77RZAAAAYAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api")
-                BookRating()
-
-            }
-
-            ShowBookTitleAndAuthor("Islam Bourouba", author = "islam, mouhamed")
-        }
-    }
-}
-
-@Composable
-fun ShowBookImage(imageUrl: String) {
-    AsyncImage(
-        modifier = Modifier
-            .height(140.dp)
-            .width(100.dp),
-        model = imageUrl,
-        contentDescription = null
-    )
-}
-
-@Composable
-fun BookRating() {
-
-    val star = remember {
-        mutableStateOf(false)
-    }
-    val fav = remember {
-        mutableStateOf(false)
-    }
-
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        IconButton(onClick = { fav.value = !fav.value }) {
-            if (!fav.value)
-                Icon(
-                    imageVector = Icons.Rounded.FavoriteBorder,
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-            else
-                Icon(
-                    imageVector = Icons.Filled.Favorite,
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-        }
-
-        Surface(
-            modifier = Modifier
-                .height(90.dp)
-                .padding(3.dp),
-            shape = RoundedCornerShape(37.dp),
-            elevation = 6.dp,
-            border = BorderStroke(1.dp, color = Color.Black)
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(bottom = 4.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                IconButton(onClick = { star.value = !star.value }) {
-                    if (!star.value)
-                        Icon(
-                            imageVector = Icons.Rounded.StarBorder,
-                            contentDescription = null,
-                            tint = Color.Unspecified
-                        )
-                    else
-                        Icon(
-                            imageVector = Icons.Rounded.Star,
-                            contentDescription = null,
-                            tint = Color.Unspecified
-                        )
-                }
-                Text(text = "0.0", style = MaterialTheme.typography.subtitle1)
-            }
-        }
-    }
-
-}
 

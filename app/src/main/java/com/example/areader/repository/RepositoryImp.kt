@@ -2,14 +2,14 @@ package com.example.areader.repository
 
 import android.content.SharedPreferences
 import android.util.Log
-import com.example.areader.api.Api
-import com.example.areader.data.auth.AuthResult
-import com.example.areader.data.auth.request.SingInAuthRequest
-import com.example.areader.data.auth.request.SingUpAuthRequest
-import com.example.areader.data.auth.request.TokenRequest
-import com.example.areader.data.auth.response.SingInResponse
-import com.example.areader.data.auth.response.SingUpResponse
-import com.example.areader.data.auth.response.UserResponse
+import com.example.areader.data.api.Api
+import com.example.areader.data.AuthResult
+import com.example.areader.data.request.auth.SingInAuthRequest
+import com.example.areader.data.request.auth.SingUpAuthRequest
+import com.example.areader.data.request.auth.TokenRequest
+import com.example.areader.data.Dto.AuthDto.SingInResponse
+import com.example.areader.data.Dto.AuthDto.SingUpResponse
+import com.example.areader.data.Dto.AuthDto.UserResponse
 import com.example.areader.utils.Constants.TAG
 import retrofit2.HttpException
 

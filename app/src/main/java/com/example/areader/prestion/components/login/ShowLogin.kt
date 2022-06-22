@@ -24,7 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.areader.data.auth.AuthResult
+import com.example.areader.data.AuthResult
 import com.example.areader.prestion.components.ShowLogo
 import com.example.areader.prestion.components.StandardButton
 import com.example.areader.prestion.components.StandardTextFiled
@@ -123,7 +123,10 @@ fun ShowLogin(
 
 
                     Box(modifier = Modifier.align(Alignment.End)) {
-                        StandardButton(buttonText = "singIn", isEnabled = viewModel.loginState.isSingInButtonEnabled ) {
+                        StandardButton(
+                            buttonText = "singIn",
+                            isEnabled = viewModel.loginState.isSingInButtonEnabled
+                        ) {
                             viewModel.onEvent(authEvent = AuthScreenUiEvent.SingIn)
                         }
                     }
