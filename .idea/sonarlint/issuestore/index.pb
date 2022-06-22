@@ -19,14 +19,10 @@ s
 Capp/src/main/java/com/example/areader/model/ApiModels/AccessInfo.kt,a\e\ae2fc450893bd22daf2a51f67ec66ec5798d261a
 ?
 settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
-<
-build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 z
 Japp/src/main/java/com/example/areader/data/auth/response/SingInResponse.kt,a\7\a75f288a87fabee4d8099d3b058fd783b63fc0e0
 z
 Japp/src/main/java/com/example/areader/data/auth/response/SingUpResponse.kt,a\1\a185af67db4a3e03c268e2d19135a33c523132d0
-@
-app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 |
 Lapp/src/main/java/com/example/areader/data/auth/request/SingUpAuthRequest.kt,a\1\a1e4f9f1a93bfda388242fde70312db0f8413ace
 |
@@ -39,10 +35,6 @@ Gapp/src/main/java/com/example/areader/data/auth/request/TokenRequest.kt,b\3\b3
 0app/src/main/java/com/example/areader/api/Api.kt,1\e\1e9ceb6123a8e9c7301976db91b9dcc2bbabb7ac
 „
 Tapp/src/main/java/com/example/areader/prestion/screens/HomeSceeen/HomeScreenState.kt,1\7\179d19af2b270efae738a0d0be0d74585de866d0
-n
->app/src/main/java/com/example/areader/repository/Repository.kt,8\d\8d83524dbe81ac3642b899d127127b9186f0be6f
-P
- app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
 ~
 Napp/src/main/java/com/example/areader/prestion/components/StandardTextFiled.kt,e\a\ea42f570828deaa9b1f4b12ca2ff26352081c154
 m
@@ -51,11 +43,7 @@ h
 8app/src/main/java/com/example/areader/utils/Constants.kt,5\c\5c6ec8b85219053bc48d0d631b5ee866651dff29
 {
 Kapp/src/main/java/com/example/areader/prestion/components/StandardButton.kt,e\c\ec192a9012c3fb91eb9bc5e70e56ff62f7b0e89b
-|
-Lapp/src/main/java/com/example/areader/prestion/components/login/ShowLogin.kt,c\0\c0f0c61e031393e046abe7d93ef089b9433e0788
 
 Oapp/src/main/java/com/example/areader/prestion/components/login/ShowRegister.kt,2\5\252c522d39c99b8605a213ce6d90c8930dfe26f9
 f
 6app/src/main/java/com/example/areader/utils/Screens.kt,4\a\4a277f9ffbcbbf2656e2ad62048e1e362895d26a
-d
-4app/src/main/java/com/example/areader/di/AppModel.kt,5\d\5d3e08b44fb6cd95ea744c061f81e125ad496ea6

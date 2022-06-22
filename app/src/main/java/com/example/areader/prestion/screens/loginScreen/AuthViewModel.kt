@@ -26,7 +26,6 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val repository: Repository,
     private val textUtils: TextUtils,
-    private val prefs: SharedPreferences
     ) : ViewModel() {
 
     var loginState by mutableStateOf(LoginScreenState())

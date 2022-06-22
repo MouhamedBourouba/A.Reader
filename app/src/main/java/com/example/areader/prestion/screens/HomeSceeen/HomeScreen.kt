@@ -1,8 +1,7 @@
 package com.example.areader.prestion.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -15,6 +14,7 @@ import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,7 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.toFontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,18 +36,24 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.areader.R
 import com.example.areader.model.MBook
-import com.example.areader.prestion.theme.AReaderTheme
+import com.example.areader.prestion.screens.HomeSceeen.HomeScreenUiEvent
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenViewModel
+import com.example.areader.prestion.theme.AReaderTheme
 import com.example.areader.utils.Screens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview(showBackground = true)
 @Composable
 fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel(),
     navController: NavController = rememberNavController()
 ) {
     val context = LocalContext.current
+    LaunchedEffect(key1 = viewModel, block = {
+        viewModel.singOuChannel.collect {
+            navController.popBackStack()
+            navController.navigate(Screens.Login.route)
+        }
+    })
 
     AReaderTheme {
         Home(viewModel = viewModel, navController = navController)
@@ -89,7 +98,7 @@ fun Home(viewModel: HomeScreenViewModel, navController: NavController) {
                         }
 
                         IconButton(onClick = {
-                            viewModel
+                            viewModel.onEvent(HomeScreenUiEvent.SingOut)
                             navController.popBackStack()
                             navController.navigate(Screens.Login.route)
                         }) {
@@ -133,20 +142,20 @@ fun HomeContent(viewModel: HomeScreenViewModel) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
     ) {
-        ShowReadingRightNow(viewModel = viewModel)
+        MainContent(viewModel = viewModel)
     }
 }
 
 @Composable
-fun ShowReadingRightNow(
-    bookModel: MBook = MBook(null, "Android Dev", "Bourouba Mouhamed", null),
+fun MainContent(
     viewModel: HomeScreenViewModel
 ) {
     Column(
         modifier = Modifier
-            .padding(start = 8.dp)
+            .padding(start = 8.dp, bottom = 24.dp)
+            .verticalScroll(rememberScrollState())
             .fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.Start
     ) {
         // Show Account And Title
@@ -168,20 +177,59 @@ fun ShowReadingRightNow(
                     tint = MaterialTheme.colors.primary
                 )
                 Text(
-                    modifier = Modifier,
-                    text = "",
+                    modifier = Modifier
+                        .width(100.dp),
+                    textAlign = TextAlign.Center,
+                    text = viewModel.currentUser.value.userName,
                     style = MaterialTheme.typography.overline,
                     color = MaterialTheme.colors.error,
-                    overflow = TextOverflow.Clip,
+                    overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                 )
             }
         }
 
         Spacer(modifier = Modifier.padding(top = 8.dp))
-        // Show Row Of Books
-        BookCard()
 
+        Row(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState(),)
+        ) {
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+        }
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        ShowTitle(title = "Pending List")
+    
+        Row(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+        ) {
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+            BookCard()
+            Spacer(modifier = Modifier.width(12.dp))
+        }
+        
     }
 }
 
@@ -195,25 +243,34 @@ fun ShowTitle(title: String) {
 }
 
 @Composable
-fun ShowBook(mBook: MBook = MBook("1", "nice Book", "Bourouba Mouhamed", null)) {
-    Surface(
-        modifier = Modifier
-            .size(200.dp),
-        color = Color.White,
-        shape = RoundedCornerShape(15.dp),
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 6.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            AsyncImage(
-                model = "http://books.google.com/books/content?id=77RZAAAAYAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-                contentDescription = null
-            )
-        }
+fun ShowBookTitleAndAuthor(bookTitle: String, author: String) {
+    Column {
+        ShowBootTitle(bookTitle = bookTitle)
+        ShowAuthor(author = author)
     }
 }
+
+@Composable
+fun ShowBootTitle(bookTitle: String) {
+    Text(
+        modifier = Modifier.padding(start = 10.dp),
+        text = bookTitle,
+        style = MaterialTheme.typography.subtitle2.copy(
+            fontWeight = FontWeight.Bold,
+            fontFamily = Font(R.font.joan_regular).toFontFamily()
+        )
+    )
+}
+
+@Composable
+fun ShowAuthor(author: String) {
+    Text(
+        modifier = Modifier.padding(start = 10.dp),
+        text = author,
+        style = MaterialTheme.typography.caption
+    )
+}
+
 
 @Preview
 @Composable
@@ -225,9 +282,7 @@ fun BookCard(
     val resources = context.resources
     val displayMatrix = resources.displayMetrics
     val screenWidth = displayMatrix.widthPixels / displayMatrix.density
-    val fav = remember {
-        mutableStateOf(false)
-    }
+
 
     Card(
         modifier = Modifier
@@ -241,7 +296,8 @@ fun BookCard(
         Column(
             modifier = Modifier
                 .width((screenWidth - 20).dp)
-                .padding(4.dp)
+                .padding(bottom = 24.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
                 modifier = Modifier
@@ -250,39 +306,26 @@ fun BookCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Top
             ) {
-                AsyncImage(
-                    modifier = Modifier
-                        .height(140.dp)
-                        .width(100.dp),
-                    model = "http://books.google.com/books/content?id=77RZAAAAYAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-                    contentDescription = null
-                )
 
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    IconButton(onClick = { fav.value = !fav.value }) {
-                        if (!fav.value)
-                            Icon(
-                                imageVector = Icons.Rounded.FavoriteBorder,
-                                contentDescription = null,
-                                tint = Color.Unspecified
-                            )
-                        else
-                            Icon(
-                                imageVector = Icons.Filled.Favorite,
-                                contentDescription = null,
-                                tint = Color.Unspecified
-                            )
-                    }
+                ShowBookImage(imageUrl = "http://books.google.com/books/content?id=77RZAAAAYAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api")
+                BookRating()
 
-                    BookRating()
-
-                }
             }
+
+            ShowBookTitleAndAuthor("Islam Bourouba", author = "islam, mouhamed")
         }
     }
+}
+
+@Composable
+fun ShowBookImage(imageUrl: String) {
+    AsyncImage(
+        modifier = Modifier
+            .height(140.dp)
+            .width(100.dp),
+        model = imageUrl,
+        contentDescription = null
+    )
 }
 
 @Composable
@@ -291,36 +334,59 @@ fun BookRating() {
     val star = remember {
         mutableStateOf(false)
     }
+    val fav = remember {
+        mutableStateOf(false)
+    }
 
-    Surface(
-        modifier = Modifier
-            .height(90.dp)
-            .padding(3.dp),
-        shape = RoundedCornerShape(37.dp),
-        elevation = 6.dp,
-        border = BorderStroke(1.dp, color = Color.Black)
+    Column(
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
+        IconButton(onClick = { fav.value = !fav.value }) {
+            if (!fav.value)
+                Icon(
+                    imageVector = Icons.Rounded.FavoriteBorder,
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
+            else
+                Icon(
+                    imageVector = Icons.Filled.Favorite,
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
+        }
+
+        Surface(
             modifier = Modifier
-                .padding(bottom = 4.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+                .height(90.dp)
+                .padding(3.dp),
+            shape = RoundedCornerShape(37.dp),
+            elevation = 6.dp,
+            border = BorderStroke(1.dp, color = Color.Black)
         ) {
-            IconButton(onClick = { star.value = !star.value }) {
-                if (!star.value)
-                    Icon(
-                        imageVector = Icons.Rounded.StarBorder,
-                        contentDescription = null,
-                        tint = Color.Unspecified
-                    )
-                else
-                    Icon(
-                        imageVector = Icons.Rounded.Star,
-                        contentDescription = null,
-                        tint = Color.Unspecified
-                    )
+            Column(
+                modifier = Modifier
+                    .padding(bottom = 4.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                IconButton(onClick = { star.value = !star.value }) {
+                    if (!star.value)
+                        Icon(
+                            imageVector = Icons.Rounded.StarBorder,
+                            contentDescription = null,
+                            tint = Color.Unspecified
+                        )
+                    else
+                        Icon(
+                            imageVector = Icons.Rounded.Star,
+                            contentDescription = null,
+                            tint = Color.Unspecified
+                        )
+                }
+                Text(text = "0.0", style = MaterialTheme.typography.subtitle1)
             }
-            Text(text = "0.0", style = MaterialTheme.typography.subtitle1)
         }
     }
 

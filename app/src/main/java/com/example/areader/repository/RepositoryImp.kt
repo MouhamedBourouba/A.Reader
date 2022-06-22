@@ -84,8 +84,8 @@ class RepositoryImp(private var api: Api, private var sharedPreferences: SharedP
 
             AuthResult.Authorized(
                 UserResponse(
-                    user.username,
-                    user.email
+                    user.userEmail,
+                    user.userName
                 )
             )
         } catch (e: Exception) {
