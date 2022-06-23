@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 
-interface Api {
+interface AuthApi {
     @POST("singUp")
     suspend fun singUp(
         @Body body: SingUpAuthRequest

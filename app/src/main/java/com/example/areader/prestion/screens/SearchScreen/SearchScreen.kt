@@ -2,6 +2,7 @@ package com.example.areader.prestion.screens.SearchScreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -79,7 +80,9 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel 
                 } else {
                     LazyColumn {
                         items(books) {
-                            BookItem(it)
+                            BookItem(it) { bookUrl ->
+                                navController.navigate("details_screen/$bookUrl")
+                            }
                             Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
@@ -90,7 +93,10 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel 
 }
 
 @Composable
-fun BookItem(book: Item) {
+fun BookItem(
+    book: Item,
+    onClick: (String) -> Unit
+) {
     val image: String? = try {
         book.volumeInfo.imageLinks.thumbnail ?: book.volumeInfo.imageLinks.smallThumbnail
     } catch (e: NullPointerException) {
@@ -100,7 +106,9 @@ fun BookItem(book: Item) {
     val publishDate = book.volumeInfo.publishedDate ?: "no data"
 
     Surface(
-        modifier = Modifier.padding(horizontal = 15.dp),
+        modifier = Modifier
+            .padding(horizontal = 15.dp)
+            .clickable { onClick.invoke(book.selfLink) },
         color = Color.White,
         elevation = 6.dp
     ) {
@@ -117,7 +125,7 @@ fun BookItem(book: Item) {
                         .width(120.dp)
                         .height(100.dp),
                     model = image,
-                    placeholder = painterResource(id = R.drawable.no_book_cover_available),
+                    placeholder = painterResource(id = R.drawable.loading_image),
                     contentDescription = null
                 )
             } else Image(

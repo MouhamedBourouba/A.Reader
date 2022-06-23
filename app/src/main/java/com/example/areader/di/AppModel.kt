@@ -4,7 +4,7 @@ package com.example.areader.di
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.example.areader.data.api.Api
+import com.example.areader.data.api.AuthApi
 import com.example.areader.data.api.BooksApi
 import com.example.areader.repository.AuthRepository
 import com.example.areader.repository.AuthRepositoryImp
@@ -20,7 +20,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -28,11 +27,11 @@ import javax.inject.Singleton
 object AppModel {
     @Provides
     @Singleton
-    fun providesApi(): Api = Retrofit.Builder()
+    fun providesApi(): AuthApi = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(Api::class.java)
+        .create(AuthApi::class.java)
 
     @Singleton
     @Provides
@@ -42,8 +41,8 @@ object AppModel {
 
     @Singleton
     @Provides
-    fun providesAuthRepository(api: Api, sharedPreferences: SharedPreferences): AuthRepository {
-        return AuthRepositoryImp(api, sharedPreferences)
+    fun providesAuthRepository(authApi: AuthApi, sharedPreferences: SharedPreferences): AuthRepository {
+        return AuthRepositoryImp(authApi, sharedPreferences)
     }
 
 

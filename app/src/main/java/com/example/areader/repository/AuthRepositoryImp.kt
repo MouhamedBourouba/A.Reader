@@ -2,7 +2,7 @@ package com.example.areader.repository
 
 import android.content.SharedPreferences
 import android.util.Log
-import com.example.areader.data.api.Api
+import com.example.areader.data.api.AuthApi
 import com.example.areader.data.AuthResult
 import com.example.areader.data.request.auth.SingInAuthRequest
 import com.example.areader.data.request.auth.SingUpAuthRequest
@@ -13,7 +13,7 @@ import com.example.areader.data.Dto.AuthDto.UserResponse
 import com.example.areader.utils.Constants.TAG
 import retrofit2.HttpException
 
-class AuthRepositoryImp(private var api: Api, private var sharedPreferences: SharedPreferences) :
+class AuthRepositoryImp(private var authApi: AuthApi, private var sharedPreferences: SharedPreferences) :
     AuthRepository {
     override suspend fun singUp(singUpAuthRequest: SingUpAuthRequest): AuthResult<SingUpResponse> {
         return try {
@@ -21,7 +21,7 @@ class AuthRepositoryImp(private var api: Api, private var sharedPreferences: Sha
             Log.d(TAG, "singIn: trying to singUp repo")
 
 
-            api.singUp(singUpAuthRequest)
+            authApi.singUp(singUpAuthRequest)
 
             singIn(SingInAuthRequest(singUpAuthRequest.email, singUpAuthRequest.password))
 
@@ -47,9 +47,9 @@ class AuthRepositoryImp(private var api: Api, private var sharedPreferences: Sha
     override suspend fun singIn(singInAuthRequest: SingInAuthRequest): AuthResult<SingInResponse> {
         return try {
             Log.d(TAG, "singIn: trying to login repo")
-            Log.d(TAG, "singIn: ${api.singIn(singInAuthRequest)}")
+            Log.d(TAG, "singIn: ${authApi.singIn(singInAuthRequest)}")
 
-            val token = api.singIn(singInAuthRequest)
+            val token = authApi.singIn(singInAuthRequest)
 
             if (token.isEmpty()) {
                 AuthResult.UnAuthorized<SingInResponse>()
@@ -80,7 +80,7 @@ class AuthRepositoryImp(private var api: Api, private var sharedPreferences: Sha
 
     override suspend fun getUser(tokenRequest: TokenRequest): AuthResult<UserResponse> {
         return try {
-            val user = api.getUser("Bearer " + tokenRequest.token)
+            val user = authApi.getUser("Bearer " + tokenRequest.token)
 
             AuthResult.Authorized(
                 UserResponse(
@@ -96,7 +96,7 @@ class AuthRepositoryImp(private var api: Api, private var sharedPreferences: Sha
     override suspend fun isAuthenticate(): Boolean {
         return try {
             val token  = sharedPreferences.getString("jwt", null) ?: false
-            api.authenticate("Bearer $token")
+            authApi.authenticate("Bearer $token")
             true
         } catch (e: Exception) {
             false
