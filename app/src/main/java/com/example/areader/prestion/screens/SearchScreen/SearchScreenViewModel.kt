@@ -11,6 +11,7 @@ import com.example.areader.data.Resource
 import com.example.areader.repository.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,35 +27,38 @@ class SearchScreenViewModel @Inject constructor(
     private val _ExceptionChannel = Channel<String>()
     val exceptionChannel = _ExceptionChannel.receiveAsFlow()
 
+    init {
+        searchInBooksApi("search", true)
+    }
 
-    private fun searchInBooksApi(query: String) = viewModelScope.launch() {
+
+    private fun searchInBooksApi(query: String, fromInit: Boolean = false) = viewModelScope.launch() {
         loading = true
-        when (val books = repository.preformSearch(query)) {
-            is Resource.Success -> {
-                loading = false
-                bookData = books.successData
-            }
-            is Resource.Failed -> {
-                _ExceptionChannel.send(books.message.toString())
-                loading = false
+        delay(800)
+        // check if user stop typing after 800ms
+        if (fromInit || query == searchText) {
+            when (val books = repository.preformSearch(query)) {
+                is Resource.Success -> {
+                    loading = false
+                    bookData = books.successData
+                }
+                is Resource.Failed -> {
+                    _ExceptionChannel.send(books.message.toString())
+                    loading = false
+                }
             }
         }
     }
 
     fun onEvent(searchUiEvent: SearchUiEvent) {
         if (searchUiEvent is SearchUiEvent.SearchTextChanged) {
-            searchInBooksApi("").cancel()
             searchText = searchUiEvent.text
-            sharedPreferences.edit()
-                .putString("search", searchText)
-                .apply()
-            searchInBooksApi(searchUiEvent.text)
+            viewModelScope.launch {
+                searchInBooksApi(searchUiEvent.text)
+            }
         }
     }
 
 
-    init {
-        val lastSearch  =sharedPreferences.getString("search", "search") ?: "Search"
-        searchInBooksApi(lastSearch)
-    }
+
 }

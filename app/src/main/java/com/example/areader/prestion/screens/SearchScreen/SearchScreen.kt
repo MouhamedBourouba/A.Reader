@@ -1,6 +1,7 @@
 package com.example.areader.prestion.screens.SearchScreen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,6 +22,8 @@ import coil.compose.AsyncImage
 import com.example.areader.R
 import com.example.areader.data.Dto.GoogleBooksDto.Item
 import com.example.areader.prestion.components.AppBarTitle
+import com.example.areader.prestion.components.ShowAuthor
+import com.example.areader.prestion.components.ShowBookTitleAndAuthor
 import com.example.areader.prestion.components.StandardTextFiled
 import com.example.areader.prestion.theme.AReaderTheme
 import com.example.areader.utils.Screens
@@ -31,14 +34,14 @@ import com.example.areader.utils.Screens
 @Composable
 fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel = hiltViewModel()) {
 
-    val books = viewModel.bookData?.items?.toMutableList() ?: emptyList<Item>()
+    val books = viewModel.bookData?.items?.toMutableList() ?: emptyList()
 
     AReaderTheme {
         Scaffold(
             topBar = {
                 TopAppBar(
                     title = {
-                        AppBarTitle("Search")
+                        AppBarTitle("Search Books")
                     },
                     navigationIcon = {
                         IconButton(onClick = {
@@ -74,7 +77,7 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel 
                         CircularProgressIndicator()
                     }
                 } else {
-                    LazyColumn() {
+                    LazyColumn {
                         items(books) {
                             BookItem(it)
                             Spacer(modifier = Modifier.height(16.dp))
@@ -88,12 +91,16 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel 
 
 @Composable
 fun BookItem(book: Item) {
-    val image: String = try {
-        book.volumeInfo.imageLinks.smallThumbnail ?: book.volumeInfo.imageLinks.thumbnail
+    val image: String? = try {
+        book.volumeInfo.imageLinks.thumbnail ?: book.volumeInfo.imageLinks.smallThumbnail
     } catch (e: NullPointerException) {
-        null.toString()
+        null
     }
+    val author = book.volumeInfo.authors?.first() ?: "no data"
+    val publishDate = book.volumeInfo.publishedDate ?: "no data"
+
     Surface(
+        modifier = Modifier.padding(horizontal = 15.dp),
         color = Color.White,
         elevation = 6.dp
     ) {
@@ -104,17 +111,32 @@ fun BookItem(book: Item) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            AsyncImage(
+            if (image != null) {
+                AsyncImage(
+                    modifier = Modifier
+                        .width(120.dp)
+                        .height(100.dp),
+                    model = image,
+                    placeholder = painterResource(id = R.drawable.no_book_cover_available),
+                    contentDescription = null
+                )
+            } else Image(
                 modifier = Modifier
-                    .width(80.dp)
+                    .width(120.dp)
                     .height(100.dp),
-                model = image,
-                placeholder = painterResource(id = R.drawable.no_book_cover_available),
+                painter = painterResource(id = R.drawable.no_book_cover_available),
                 contentDescription = null
             )
+            Column {
+                ShowBookTitleAndAuthor(
+                    bookTitle = book.volumeInfo.title,
+                    "Author: $author"
+                )
+                ShowAuthor(author = "publish date: $publishDate")
+
+            }
         }
 
-        Text(text = book.volumeInfo.title)
 
     }
 }

@@ -2,7 +2,7 @@ package com.example.areader.data.Dto.GoogleBooksDto
 
 data class VolumeInfo(
     val allowAnonLogging: Boolean,
-    val authors: List<String>,
+    val authors: List<String>?,
     val canonicalVolumeLink: String,
     val categories: List<String>,
     val contentVersion: String,
@@ -16,7 +16,7 @@ data class VolumeInfo(
     val panelizationSummary: PanelizationSummary,
     val previewLink: String,
     val printType: String,
-    val publishedDate: String,
+    val publishedDate: String?,
     val publisher: String,
     val readingModes: ReadingModes,
     val subtitle: String,

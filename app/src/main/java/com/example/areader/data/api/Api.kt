@@ -2,7 +2,6 @@ package com.example.areader.data.api
 
 import com.example.areader.data.request.auth.SingInAuthRequest
 import com.example.areader.data.request.auth.SingUpAuthRequest
-import com.example.areader.data.Dto.AuthDto.ErrorRespond
 import com.example.areader.data.Dto.AuthDto.UserResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -29,9 +28,4 @@ interface Api {
     suspend fun getUser(
         @Header("Authorization") token: String
     ): UserResponse
-
-
-    @POST("singIn")
-    suspend fun getError(@Body body: SingInAuthRequest): ErrorRespond
-
 }
