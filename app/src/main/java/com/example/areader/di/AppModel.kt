@@ -6,10 +6,12 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.example.areader.data.api.AuthApi
 import com.example.areader.data.api.BooksApi
-import com.example.areader.repository.AuthRepository
-import com.example.areader.repository.AuthRepositoryImp
-import com.example.areader.repository.SearchRepository
-import com.example.areader.repository.SearchRepositoryImp
+import com.example.areader.repository.auth.AuthRepository
+import com.example.areader.repository.auth.AuthRepositoryImp
+import com.example.areader.repository.details.DetailsRepository
+import com.example.areader.repository.details.DetailsRepositoryImp
+import com.example.areader.repository.search.SearchRepository
+import com.example.areader.repository.search.SearchRepositoryImp
 import com.example.areader.utils.Constants
 import com.example.areader.utils.Constants.BASE_URL
 import com.example.areader.utils.TextUtils
@@ -43,6 +45,13 @@ object AppModel {
     @Provides
     fun providesAuthRepository(authApi: AuthApi, sharedPreferences: SharedPreferences): AuthRepository {
         return AuthRepositoryImp(authApi, sharedPreferences)
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesDetailsRepository(booksApi: BooksApi): DetailsRepository {
+        return DetailsRepositoryImp(booksApi)
     }
 
 

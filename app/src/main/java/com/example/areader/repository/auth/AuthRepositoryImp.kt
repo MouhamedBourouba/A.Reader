@@ -1,4 +1,4 @@
-package com.example.areader.repository
+package com.example.areader.repository.auth
 
 import android.content.SharedPreferences
 import android.util.Log

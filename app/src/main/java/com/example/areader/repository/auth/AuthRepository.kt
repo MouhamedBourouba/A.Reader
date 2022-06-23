@@ -1,4 +1,4 @@
-package com.example.areader.repository
+package com.example.areader.repository.auth
 
 import com.example.areader.data.AuthResult
 import com.example.areader.data.request.auth.SingInAuthRequest

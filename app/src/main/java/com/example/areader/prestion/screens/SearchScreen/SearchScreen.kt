@@ -11,6 +11,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Book
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -18,26 +21,40 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.areader.R
 import com.example.areader.data.Dto.GoogleBooksDto.Item
-import com.example.areader.prestion.components.AppBarTitle
-import com.example.areader.prestion.components.ShowAuthor
-import com.example.areader.prestion.components.ShowBookTitleAndAuthor
-import com.example.areader.prestion.components.StandardTextFiled
+import com.example.areader.prestion.components.*
+import com.example.areader.prestion.screens.destinations.BookDetailsScreenDestination
 import com.example.areader.prestion.theme.AReaderTheme
 import com.example.areader.utils.Screens
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Destination
 @Composable
-fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel = hiltViewModel()) {
+fun SearchScreen(
+    navController: DestinationsNavigator,
+    viewModel: SearchScreenViewModel = hiltViewModel()
+) {
 
     val books = viewModel.bookData?.items?.toMutableList() ?: emptyList()
+    val exception = rememberSaveable() {
+        mutableStateOf(false)
+    }
 
-    AReaderTheme {
+    LaunchedEffect(key1 = viewModel, block = {
+        viewModel.exceptionChannel.collect {
+            exception.value = true
+        }
+    })
+
+
+
+    if (!exception.value) AReaderTheme {
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -80,8 +97,8 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel 
                 } else {
                     LazyColumn {
                         items(books) {
-                            BookItem(it) { bookUrl ->
-                                navController.navigate("details_screen/$bookUrl")
+                            BookItem(it) { bookId ->
+                                navController.navigate(BookDetailsScreenDestination(bookUrl = bookId))
                             }
                             Spacer(modifier = Modifier.height(16.dp))
                         }
@@ -89,6 +106,10 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel 
                 }
             }
         }
+    }
+    else NoInternet {
+        viewModel.searchInBooksApi("search", true)
+        exception.value = false
     }
 }
 
@@ -108,7 +129,7 @@ fun BookItem(
     Surface(
         modifier = Modifier
             .padding(horizontal = 15.dp)
-            .clickable { onClick.invoke(book.selfLink) },
+            .clickable { onClick.invoke(book.id) },
         color = Color.White,
         elevation = 6.dp
     ) {
@@ -131,16 +152,14 @@ fun BookItem(
             } else Image(
                 modifier = Modifier
                     .width(120.dp)
-                    .height(100.dp),
+                    .height(80.dp),
                 painter = painterResource(id = R.drawable.no_book_cover_available),
                 contentDescription = null
             )
             Column {
-                ShowBookTitleAndAuthor(
-                    bookTitle = book.volumeInfo.title,
-                    "Author: $author"
-                )
-                ShowAuthor(author = "publish date: $publishDate")
+                ShowBootTitle(bookTitle = book.volumeInfo.title)
+                ShowText(author = "Author :" + (book.volumeInfo.authors?.first() ?: "No Data"), maxLines = 2)
+                ShowText(author = "publish date: $publishDate" , maxLines = 1)
 
             }
         }

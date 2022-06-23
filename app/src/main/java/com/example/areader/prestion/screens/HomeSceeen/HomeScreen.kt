@@ -35,20 +35,26 @@ import com.example.areader.model.MBook
 import com.example.areader.prestion.components.*
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenUiEvent
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenViewModel
+import com.example.areader.prestion.screens.destinations.AuthScreenDestination
+import com.example.areader.prestion.screens.destinations.BookDetailsScreenDestination
+import com.example.areader.prestion.screens.destinations.SearchScreenDestination
 import com.example.areader.prestion.theme.AReaderTheme
 import com.example.areader.utils.Screens
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Destination
 @Composable
 fun HomeScreen(
-    viewModel: HomeScreenViewModel = hiltViewModel(),
-    navController: NavController = rememberNavController()
+    navController: DestinationsNavigator,
+    viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = viewModel, block = {
         viewModel.singOuChannel.collect {
             navController.popBackStack()
-            navController.navigate(Screens.Login.route)
+            navController.navigate(AuthScreenDestination)
         }
     })
 
@@ -59,7 +65,7 @@ fun HomeScreen(
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun Home(viewModel: HomeScreenViewModel, navController: NavController) {
+fun Home(viewModel: HomeScreenViewModel, navController: DestinationsNavigator) {
     AReaderTheme {
         Scaffold(
             topBar = {
@@ -108,7 +114,7 @@ fun Home(viewModel: HomeScreenViewModel, navController: NavController) {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                              navController.navigate(Screens.Search.route)
+                        navController.navigate(SearchScreenDestination)
                     },
                     backgroundColor = MaterialTheme.colors.primary
                 ) {
@@ -184,7 +190,7 @@ fun MainContent(
 
         val bookList = remember {
             mutableListOf(
-                MBook(72, true, title ="theHero", "theHero Author", isReading = true, rate = 3.2),
+                MBook(72, true, title = "theHero", "theHero Author", isReading = true, rate = 3.2),
                 MBook(3, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
                 MBook(484, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
                 MBook(587, true, "theHero", "theHero Author", isReading = true, rate = 3.2),

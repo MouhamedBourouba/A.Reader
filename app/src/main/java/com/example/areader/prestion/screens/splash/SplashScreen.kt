@@ -16,13 +16,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.areader.prestion.components.ShowLogo
+import com.example.areader.prestion.screens.destinations.AuthScreenDestination
+import com.example.areader.prestion.screens.destinations.HomeScreenDestination
 import com.example.areader.prestion.screens.loginScreen.AuthViewModel
 import com.example.areader.prestion.theme.AReaderTheme
 import com.example.areader.utils.Screens
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.delay
 
+@RootNavGraph(start = true)
+@Destination
 @Composable
-fun SplashScreen(navHost: NavHostController, authViewModel: AuthViewModel = hiltViewModel()) {
+fun SplashScreen(navHost: DestinationsNavigator, authViewModel: AuthViewModel = hiltViewModel()) {
     AReaderTheme {
         val scale = remember {
             androidx.compose.animation.core.Animatable(initialValue = 0f)
@@ -44,11 +51,11 @@ fun SplashScreen(navHost: NavHostController, authViewModel: AuthViewModel = hilt
             if (authViewModel.isAuthenticate) {
                 delay(1200)
                 navHost.popBackStack()
-                navHost.navigate(Screens.Home.route)
+                navHost.navigate(HomeScreenDestination)
             } else {
                 delay(1200)
                 navHost.popBackStack()
-                navHost.navigate(Screens.Login.route)
+                navHost.navigate(AuthScreenDestination)
             }
         })
 

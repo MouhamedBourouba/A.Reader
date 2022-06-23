@@ -1,4 +1,4 @@
-package com.example.areader.repository
+package com.example.areader.repository.search
 
 import com.example.areader.data.Dto.GoogleBooksDto.BookDto
 import com.example.areader.data.Resource

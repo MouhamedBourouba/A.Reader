@@ -11,39 +11,52 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.toFontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.areader.R
 
 
 @Composable
-fun ShowBootTitle(bookTitle: String) {
+fun ShowBootTitle(bookTitle: String, titleTextSize: Int? = null, maxLines: Int? = null) {
     Text(
         modifier = Modifier.padding(start = 15.dp),
         text = bookTitle,
-        style = MaterialTheme.typography.subtitle2.copy(
-            fontWeight = FontWeight.Bold,
-            fontFamily = Font(R.font.joan_regular).toFontFamily()
-        ),
+        maxLines = maxLines ?: 2,
+        style = if (titleTextSize == null)
+            MaterialTheme.typography.subtitle2.copy(
+                fontWeight = FontWeight.Bold,
+                fontFamily = Font(R.font.joan_regular).toFontFamily()
+            )
+        else
+            MaterialTheme.typography.subtitle2.copy(
+                fontSize = titleTextSize.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = Font(R.font.joan_regular).toFontFamily()
+            ),
         overflow = TextOverflow.Ellipsis
     )
 }
 
 
-
 @Composable
-fun ShowAuthor(author: String) {
+fun ShowText(author: String, textSize: Int? = null, maxLines: Int? = null) {
     Text(
         modifier = Modifier.padding(start = 15.dp),
         text = author,
-        style = MaterialTheme.typography.caption,
+        maxLines = maxLines ?: 100,
+        style =
+        if (textSize != null)
+            MaterialTheme.typography.caption.copy(fontSize = textSize.sp)
+        else
+            MaterialTheme.typography.caption,
         overflow = TextOverflow.Ellipsis
     )
 }
 
 @Composable
-fun ShowBookTitleAndAuthor(bookTitle: String, author: String) {
+fun ShowBookTitleAndAuthor(bookTitle: String, author: String, titleTextSize: Int? = null, authorsTextSize: Int? = null) {
     Column {
-        ShowBootTitle(bookTitle = bookTitle)
-        ShowAuthor(author = author)
+        ShowBootTitle(bookTitle = bookTitle, titleTextSize)
+        ShowText(author = author, authorsTextSize)
     }
 }
 

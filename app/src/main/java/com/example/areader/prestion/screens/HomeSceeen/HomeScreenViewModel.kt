@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.areader.data.request.auth.TokenRequest
 import com.example.areader.data.Dto.AuthDto.UserResponse
-import com.example.areader.repository.AuthRepository
+import com.example.areader.repository.auth.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

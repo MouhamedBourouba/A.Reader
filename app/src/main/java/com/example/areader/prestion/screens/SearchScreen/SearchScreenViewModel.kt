@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.areader.data.Dto.GoogleBooksDto.BookDto
 import com.example.areader.data.Resource
-import com.example.areader.repository.SearchRepository
+import com.example.areader.repository.search.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -32,12 +32,13 @@ class SearchScreenViewModel @Inject constructor(
     }
 
 
-    private fun searchInBooksApi(query: String, fromInit: Boolean = false) = viewModelScope.launch() {
+     fun searchInBooksApi(query: String, fromInit: Boolean = false) = viewModelScope.launch() {
         loading = true
+         val searchText = searchText.ifEmpty { "search" }
         delay(800)
         // check if user stop typing after 800ms
         if (fromInit || query == searchText) {
-            when (val books = repository.preformSearch(query)) {
+            when (val books = repository.preformSearch(searchText)) {
                 is Resource.Success -> {
                     loading = false
                     bookData = books.successData

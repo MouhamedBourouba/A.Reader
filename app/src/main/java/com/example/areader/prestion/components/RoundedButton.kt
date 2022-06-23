@@ -1,6 +1,7 @@
 package com.example.areader.prestion.components
 
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -15,10 +16,17 @@ import androidx.compose.ui.unit.dp
 @Preview(showBackground = true)
 @Composable
 fun RoundedButton(
+    text: String = "Reading",
+    width: Int? = null,
     onPressed: () -> Unit = {},
 ) {
     Button(
-        modifier = Modifier
+        modifier =
+        if (width != null) {
+            Modifier
+                .height(40.dp)
+                .width(width.dp)
+        } else Modifier
             .height(40.dp),
         onClick = { onPressed.invoke() },
         colors = ButtonDefaults.buttonColors(
@@ -28,6 +36,6 @@ fun RoundedButton(
 
         shape = RoundedCornerShape(topStart = 29.dp, bottomEnd = 29.dp)
     ) {
-        Text(text = "Reading")
+        Text(text = text)
     }
 }

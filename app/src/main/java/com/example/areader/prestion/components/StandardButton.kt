@@ -23,7 +23,7 @@ fun StandardButton(
     AReaderTheme {
         Button(
             modifier = Modifier
-                .width(120.dp)
+                .width(140.dp)
                 .padding(end = 15.dp),
             onClick = { onClick.invoke() },
             colors = ButtonDefaults.buttonColors(

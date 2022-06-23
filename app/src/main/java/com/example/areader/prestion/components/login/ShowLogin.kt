@@ -28,10 +28,12 @@ import com.example.areader.data.AuthResult
 import com.example.areader.prestion.components.ShowLogo
 import com.example.areader.prestion.components.StandardButton
 import com.example.areader.prestion.components.StandardTextFiled
+import com.example.areader.prestion.screens.destinations.HomeScreenDestination
 import com.example.areader.prestion.screens.loginScreen.AuthScreenUiEvent
 import com.example.areader.prestion.screens.loginScreen.AuthViewModel
 import com.example.areader.prestion.theme.AReaderTheme
 import com.example.areader.utils.Screens
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.dmoral.toasty.Toasty
 
 
@@ -39,7 +41,7 @@ import es.dmoral.toasty.Toasty
 @Composable
 fun ShowLogin(
     viewModel: AuthViewModel,
-    navController: NavController,
+    navController: DestinationsNavigator,
     changeScreen: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -48,7 +50,7 @@ fun ShowLogin(
             when (it) {
                 is AuthResult.Authorized -> {
                     navController.popBackStack()
-                    navController.navigate(Screens.Home.route)
+                    navController.navigate(HomeScreenDestination)
                 }
                 is AuthResult.UnAuthorized -> Toasty.error(context, it.message.toString()).show()
                 is AuthResult.UnknownError -> Toasty.error(

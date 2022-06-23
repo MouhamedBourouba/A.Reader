@@ -3,7 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.devtools.ksp' version '1.6.21-1.0.6'
 }
+
+
 
 android {
     compileSdk 32
@@ -43,6 +46,13 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    applicationVariants.all { variant ->
+        kotlin.sourceSets {
+            getByName(variant.name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
         }
     }
 }
@@ -118,5 +128,9 @@ dependencies {
 
     // Extra Icons
     implementation 'androidx.compose.material:material-icons-extended:1.1.1'
+
+    //navigation
+    implementation 'io.github.raamcosta.compose-destinations:core:1.6.12-beta'
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.6.12-beta'
 
 }
