@@ -23,10 +23,10 @@ class HomeScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     val currentUser = mutableStateOf(UserRespond())
-//    val loading = mutableStateOf(false)
+    val loadingBooks = mutableStateOf(false)
     private val _singOuChannel = Channel<Unit>()
     val singOuChannel = _singOuChannel.receiveAsFlow()
-    val userName = currentUser.value.userName
+    val userName = prefs.getString("userName", null)
     val readingList = mutableListOf<MBook>()
     val pendingList = mutableListOf<MBook>()
     val completedList = mutableListOf<MBook>()
@@ -51,10 +51,11 @@ class HomeScreenViewModel @Inject constructor(
 
     private fun getCurrentUser() {
 //        loading.value = true
-
         viewModelScope.launch {
+            loadingBooks.value = true
             val user =
                 homeRepository.getUserDataByName(prefs.getString("userName", null) ?: return@launch)
+            loadingBooks.value = false
             when (user) {
                 is Resource.Success -> {
                     currentUser.value =
@@ -78,7 +79,6 @@ class HomeScreenViewModel @Inject constructor(
                 }
                 is Resource.Failed -> {
                     Log.d(TAG, "getCurrentUser: $user")
-
                     onEvent(HomeScreenUiEvent.SingOut)
                 }
 

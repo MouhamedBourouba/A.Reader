@@ -181,7 +181,7 @@ fun MainContent(
                     modifier = Modifier
                         .width(100.dp),
                     textAlign = TextAlign.Center,
-                    text = viewModel.currentUser.value.userName ?: "",
+                    text = viewModel.userName ?: "",
                     style = MaterialTheme.typography.overline,
                     color = MaterialTheme.colors.error,
                     overflow = TextOverflow.Ellipsis,
@@ -193,31 +193,46 @@ fun MainContent(
 
         Spacer(modifier = Modifier.padding(top = 8.dp))
 
+        if (viewModel.loadingBooks.value) {
+            Box(
+                modifier = Modifier
+                    .height(242.dp)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
 
-        if (viewModel.readingList.isNotEmpty()) LazyRow() {
-            items(viewModel.readingList) {
-                BookCard(it)
-                Spacer(modifier = Modifier.width(16.dp))
+        } else {
+            if (viewModel.readingList.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .height(242.dp)
+                        .width(202.dp),
+                    contentAlignment = Alignment.TopEnd
+                ) {
+
+                    Text(
+                        modifier = Modifier.padding(top = 24.dp),
+                        text = "No Books Found, add Book",
+                        style = MaterialTheme.typography.caption.copy(
+                            color = MaterialTheme.colors.error.copy(
+                                0.7f
+                            )
+                        )
+                    )
+
+                }
+            } else if (viewModel.readingList.isNotEmpty()) LazyRow() {
+                items(viewModel.readingList) {
+                    BookCard(it)
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
             }
         }
-        else Box(
-            modifier = Modifier
-                .height(242.dp)
-                .width(202.dp),
-            contentAlignment = Alignment.TopEnd
-        ) {
 
-            Text(
-                modifier = Modifier.padding(top = 24.dp),
-                text = "No Books Found, add Book",
-                style = MaterialTheme.typography.caption.copy(
-                    color = MaterialTheme.colors.error.copy(
-                        0.7f
-                    )
-                )
-            )
 
-        }
+
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -225,28 +240,40 @@ fun MainContent(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        if (viewModel.pendingList.isNotEmpty()) LazyRow() {
-            items(viewModel.pendingList) {
-                BookCard(it)
-                Spacer(modifier = Modifier.width(16.dp))
+        if (viewModel.loadingBooks.value) {
+            Box(
+                modifier = Modifier
+                    .height(242.dp)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
             }
-        } else Box(
-            modifier = Modifier
-                .height(242.dp)
-                .width(202.dp),
-            contentAlignment = Alignment.TopEnd
-        ) {
-
-            Text(
-                modifier = Modifier.padding(top = 24.dp),
-                text = "No Books Found, add Book",
-                style = MaterialTheme.typography.caption.copy(
-                    color = MaterialTheme.colors.error.copy(
-                        0.7f
+        } else {
+            if (viewModel.pendingList.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .height(242.dp)
+                        .width(202.dp),
+                    contentAlignment = Alignment.TopEnd
+                ) {
+                    Text(
+                        modifier = Modifier.padding(top = 24.dp),
+                        text = "No Books Found, add Book",
+                        style = MaterialTheme.typography.caption.copy(
+                            color = MaterialTheme.colors.error.copy(
+                                0.7f
+                            )
+                        )
                     )
-                )
-            )
 
+                }
+            } else if (viewModel.pendingList.isNotEmpty()) LazyRow() {
+                items(viewModel.pendingList) {
+                    BookCard(it)
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
+            }
         }
 
     }

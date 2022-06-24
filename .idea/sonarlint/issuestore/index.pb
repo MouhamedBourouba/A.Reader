@@ -7,8 +7,6 @@ A
 settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
 l
 <app/src/main/java/com/example/areader/prestion/theme/Type.kt,4\7\47e1601de5a4e94861bdc0f506e75ad7a1d62bad
-†
-Vapp/src/main/java/com/example/areader/prestion/screens/HomeSceeen/HomeScreenUiEvent.kt,f\3\f329a64afed002ecc45add4cd5aabaf949f6936b
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
 h
@@ -53,8 +51,6 @@ f
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 
 Oapp/src/main/java/com/example/areader/prestion/components/login/ShowRegister.kt,2\5\252c522d39c99b8605a213ce6d90c8930dfe26f9
-€
-Papp/src/main/java/com/example/areader/prestion/screens/loginScreen/AuthScreen.kt,2\0\207e63ca0a53a13e54617cdf7c85edc62755c9f1
 ~
 Napp/src/main/java/com/example/areader/repository/search/SearchRepositoryImp.kt,2\2\22540ce3a600090b5ef1af67b0f242352e213719
 u
