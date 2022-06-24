@@ -2,31 +2,28 @@ package com.example.areader.repository.auth
 
 import android.content.SharedPreferences
 import android.util.Log
-import com.example.areader.data.api.AuthApi
 import com.example.areader.data.AuthResult
-import com.example.areader.data.request.auth.SingInAuthRequest
-import com.example.areader.data.request.auth.SingUpAuthRequest
-import com.example.areader.data.request.auth.TokenRequest
 import com.example.areader.data.Dto.AuthDto.SingInResponse
 import com.example.areader.data.Dto.AuthDto.SingUpResponse
-import com.example.areader.data.Dto.AuthDto.UserResponse
+import com.example.areader.data.api.AuthApi
+import com.example.areader.data.request.auth.SingInAuthRequest
+import com.example.areader.data.request.auth.SingUpAuthRequest
 import com.example.areader.utils.Constants.TAG
 import retrofit2.HttpException
 
-class AuthRepositoryImp(private var authApi: AuthApi, private var sharedPreferences: SharedPreferences) :
+class AuthRepositoryImp(
+    private var authApi: AuthApi,
+    private var sharedPreferences: SharedPreferences
+) :
     AuthRepository {
     override suspend fun singUp(singUpAuthRequest: SingUpAuthRequest): AuthResult<SingUpResponse> {
         return try {
 
-            Log.d(TAG, "singIn: trying to singUp repo")
 
 
             authApi.singUp(singUpAuthRequest)
 
-            singIn(SingInAuthRequest(singUpAuthRequest.email, singUpAuthRequest.password))
-
-            Log.d(TAG, "singUp: sinup succses")
-
+            singIn(SingInAuthRequest(singUpAuthRequest.username, singUpAuthRequest.password))
 
             AuthResult.Authorized(SingUpResponse(isSuccess = true))
 
@@ -60,6 +57,11 @@ class AuthRepositoryImp(private var authApi: AuthApi, private var sharedPreferen
                 .putString("jwt", token)
                 .apply()
 
+            sharedPreferences
+                .edit()
+                .putString("userName", singInAuthRequest.usernameOrEmail)
+                .apply()
+
             Log.d(TAG, "singIn: $token")
 
 
@@ -78,24 +80,10 @@ class AuthRepositoryImp(private var authApi: AuthApi, private var sharedPreferen
         }
     }
 
-    override suspend fun getUser(tokenRequest: TokenRequest): AuthResult<UserResponse> {
-        return try {
-            val user = authApi.getUser("Bearer " + tokenRequest.token)
-
-            AuthResult.Authorized(
-                UserResponse(
-                    user.userEmail,
-                    user.userName
-                )
-            )
-        } catch (e: Exception) {
-            AuthResult.UnknownError()
-        }
-    }
 
     override suspend fun isAuthenticate(): Boolean {
         return try {
-            val token  = sharedPreferences.getString("jwt", null) ?: false
+            val token = sharedPreferences.getString("jwt", null) ?: false
             authApi.authenticate("Bearer $token")
             true
         } catch (e: Exception) {

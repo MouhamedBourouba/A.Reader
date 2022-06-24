@@ -6,10 +6,13 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.example.areader.data.api.AuthApi
 import com.example.areader.data.api.BooksApi
+import com.example.areader.data.api.UserApi
 import com.example.areader.repository.auth.AuthRepository
 import com.example.areader.repository.auth.AuthRepositoryImp
 import com.example.areader.repository.details.DetailsRepository
 import com.example.areader.repository.details.DetailsRepositoryImp
+import com.example.areader.repository.home.HomeRepository
+import com.example.areader.repository.home.HomeRepositoryImp
 import com.example.areader.repository.search.SearchRepository
 import com.example.areader.repository.search.SearchRepositoryImp
 import com.example.areader.utils.Constants
@@ -50,10 +53,23 @@ object AppModel {
 
     @Singleton
     @Provides
-    fun providesDetailsRepository(booksApi: BooksApi): DetailsRepository {
-        return DetailsRepositoryImp(booksApi)
+    fun providesDetailsRepository(booksApi: BooksApi, userApi: UserApi): DetailsRepository {
+        return DetailsRepositoryImp(booksApi, userApi)
     }
 
+    @Singleton
+    @Provides
+    fun providesHomeRepository(userApi: UserApi): HomeRepository {
+        return HomeRepositoryImp(userApi)
+    }
+
+    @Singleton
+    @Provides
+    fun providesUserApi(): UserApi = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(UserApi::class.java)
 
     @Singleton
     @Provides

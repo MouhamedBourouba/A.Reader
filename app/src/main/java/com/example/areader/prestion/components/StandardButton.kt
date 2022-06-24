@@ -2,10 +2,7 @@ package com.example.areader.prestion.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,8 +26,8 @@ fun StandardButton(
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.primary,
                 contentColor = Color.White,
-                disabledBackgroundColor = MaterialTheme.colors.primary.copy(0.3f),
-                disabledContentColor = MaterialTheme.colors.primary.copy(0.6f)
+//                disabledBackgroundColor = MaterialTheme.colors.primary.copy(0.4f),
+//                disabledContentColor = MaterialTheme.colors.background.copy(0.5f)
             ),
             enabled = isEnabled
         ) {

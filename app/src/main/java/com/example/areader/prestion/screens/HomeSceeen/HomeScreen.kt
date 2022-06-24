@@ -1,7 +1,6 @@
 package com.example.areader.prestion.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,7 +15,6 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,18 +26,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.areader.R
 import com.example.areader.model.MBook
 import com.example.areader.prestion.components.*
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenUiEvent
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenViewModel
 import com.example.areader.prestion.screens.destinations.AuthScreenDestination
-import com.example.areader.prestion.screens.destinations.BookDetailsScreenDestination
 import com.example.areader.prestion.screens.destinations.SearchScreenDestination
 import com.example.areader.prestion.theme.AReaderTheme
-import com.example.areader.utils.Screens
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -59,6 +53,14 @@ fun HomeScreen(
     })
 
     AReaderTheme {
+//        if (viewModel.loading.value) Box(
+//            Modifier.fillMaxSize(),
+//            contentAlignment = Alignment.Center
+//        ) {
+//            CircularProgressIndicator()
+
+//        } else
+
         Home(viewModel = viewModel, navController = navController)
     }
 }
@@ -135,6 +137,7 @@ fun Home(viewModel: HomeScreenViewModel, navController: DestinationsNavigator) {
 fun HomeContent(viewModel: HomeScreenViewModel) {
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .padding(top = 16.dp, start = 6.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
@@ -143,7 +146,6 @@ fun HomeContent(viewModel: HomeScreenViewModel) {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainContent(
     viewModel: HomeScreenViewModel
@@ -179,7 +181,7 @@ fun MainContent(
                     modifier = Modifier
                         .width(100.dp),
                     textAlign = TextAlign.Center,
-                    text = viewModel.currentUser.value.userName,
+                    text = viewModel.currentUser.value.userName ?: "",
                     style = MaterialTheme.typography.overline,
                     color = MaterialTheme.colors.error,
                     overflow = TextOverflow.Ellipsis,
@@ -188,30 +190,33 @@ fun MainContent(
             }
         }
 
-        val bookList = remember {
-            mutableListOf(
-                MBook(72, true, title = "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(3, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(484, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(587, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(6 + 98, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(7, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(8 + 5, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(9, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(10, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(19871, true, "theHero", "theHero Author", isReading = true, rate = 3.2),
-                MBook(1872, true, "theHero", "theHero Author", isReading = true, rate = 3.2)
-            )
-        }
 
         Spacer(modifier = Modifier.padding(top = 8.dp))
 
 
-        LazyRow() {
-            items(bookList, key = { it.id }) {
-                BookCard()
+        if (viewModel.readingList.isNotEmpty()) LazyRow() {
+            items(viewModel.readingList) {
+                BookCard(it)
                 Spacer(modifier = Modifier.width(16.dp))
             }
+        }
+        else Box(
+            modifier = Modifier
+                .height(242.dp)
+                .width(202.dp),
+            contentAlignment = Alignment.TopEnd
+        ) {
+
+            Text(
+                modifier = Modifier.padding(top = 24.dp),
+                text = "No Books Found, add Book",
+                style = MaterialTheme.typography.caption.copy(
+                    color = MaterialTheme.colors.error.copy(
+                        0.7f
+                    )
+                )
+            )
+
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -220,11 +225,28 @@ fun MainContent(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        LazyRow() {
-            items(bookList) {
-                BookCard()
+        if (viewModel.pendingList.isNotEmpty()) LazyRow() {
+            items(viewModel.pendingList) {
+                BookCard(it)
                 Spacer(modifier = Modifier.width(16.dp))
             }
+        } else Box(
+            modifier = Modifier
+                .height(242.dp)
+                .width(202.dp),
+            contentAlignment = Alignment.TopEnd
+        ) {
+
+            Text(
+                modifier = Modifier.padding(top = 24.dp),
+                text = "No Books Found, add Book",
+                style = MaterialTheme.typography.caption.copy(
+                    color = MaterialTheme.colors.error.copy(
+                        0.7f
+                    )
+                )
+            )
+
         }
 
     }
@@ -233,8 +255,8 @@ fun MainContent(
 
 @Composable
 fun BookCard(
-    book: MBook = MBook(1, true, "the true hero", "Islam", isReading = true),
-    onPressed: (Int) -> Unit = {}
+    book: MBook,
+    onPressed: (String?) -> Unit = {}
 ) {
     val context = LocalContext.current
     val resources = context.resources
@@ -246,7 +268,7 @@ fun BookCard(
             modifier = Modifier
                 .height(242.dp)
                 .width(202.dp)
-                .clickable { onPressed.invoke(book.id) },
+                .clickable { onPressed.invoke(book.googleBookApiId ?: "") },
             shape = RoundedCornerShape(29.dp),
             backgroundColor = Color.White
         ) {
@@ -263,11 +285,11 @@ fun BookCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Top
                 ) {
-                    ShowBookImage(imageUrl = book.imageUrl)
-                    BookRating(book.rate.toString(), book.isLiked)
+                    ShowBookImage(imageUrl = book.imageUrl!!)
+                    BookRating(book.rate.toString())
                 }
 
-                ShowBookTitleAndAuthor(book.title, author = book.authors.toString())
+                ShowBookTitleAndAuthor(book.title!!, author = book.authors.toString())
 
                 Row(
                     horizontalArrangement = Arrangement.End,

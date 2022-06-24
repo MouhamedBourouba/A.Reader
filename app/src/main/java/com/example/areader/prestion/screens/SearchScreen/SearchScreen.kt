@@ -158,7 +158,7 @@ fun BookItem(
             )
             Column {
                 ShowBootTitle(bookTitle = book.volumeInfo.title)
-                ShowText(author = "Author :" + (book.volumeInfo.authors?.first() ?: "No Data"), maxLines = 2)
+                ShowText(author = "Author :$author", maxLines = 2)
                 ShowText(author = "publish date: $publishDate" , maxLines = 1)
 
             }

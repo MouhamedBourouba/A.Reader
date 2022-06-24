@@ -7,10 +7,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.areader.data.AuthResult
-import com.example.areader.data.request.auth.SingInAuthRequest
-import com.example.areader.data.request.auth.SingUpAuthRequest
 import com.example.areader.data.Dto.AuthDto.SingInResponse
 import com.example.areader.data.Dto.AuthDto.SingUpResponse
+import com.example.areader.data.request.auth.SingInAuthRequest
+import com.example.areader.data.request.auth.SingUpAuthRequest
 import com.example.areader.repository.auth.AuthRepository
 import com.example.areader.utils.Constants.TAG
 import com.example.areader.utils.TextUtils
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val textUtils: TextUtils,
-    ) : ViewModel() {
+) : ViewModel() {
 
     var loginState by mutableStateOf(LoginScreenState())
     private val singInChannel = Channel<AuthResult<SingInResponse>>()
@@ -87,9 +87,10 @@ class AuthViewModel @Inject constructor(
 
     private fun enableSingUpButton() {
         loginState.isSingUpButtonEnabled = (
-                loginState.registerEmailText.isNotEmpty()
-                        && loginState.registerPasswordText.isNotEmpty()
-                        && loginState.registerUserNameText.isNotEmpty())
+                loginState.registerEmailText.isNotEmpty() &&
+                        loginState.registerPasswordText.isNotEmpty() &&
+                        loginState.registerUserNameText.isNotEmpty()
+                )
     }
 
     private fun loginWithEmailAndPassword(
@@ -105,7 +106,6 @@ class AuthViewModel @Inject constructor(
         loginState = loginState.copy(isLoading = false)
 
     }
-
 
 
     private fun createUser(

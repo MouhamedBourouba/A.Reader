@@ -3,6 +3,7 @@ package com.example.areader.prestion.screens.detailsScreen
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -51,12 +52,12 @@ fun BookDetailsScreen(
         }
 
         if (!exception.value) {
-            if (viewModel.loading.value) {
+            if (viewModel.loadingBookData.value) {
                 Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                     CircularProgressIndicator()
                 }
             } else {
-                ContentHome(navController, viewModel.currentBook.value!!)
+                ContentHome(navController, viewModel.currentBook.value!!, viewModel)
             }
         } else {
             NoInternet {
@@ -64,12 +65,29 @@ fun BookDetailsScreen(
                 exception.value = false
             }
         }
+        if (viewModel.loadingSavingBook.value == true) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.LightGray.copy(0.8f)), contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else if (viewModel.loadingSavingBook.value == false) {
+            navController.navigate(HomeScreenDestination)
+        }
+
+
     }
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ContentHome(navController: DestinationsNavigator, book: Item) {
+fun ContentHome(
+    navController: DestinationsNavigator,
+    book: Item,
+    viewModel: BookDetailScreenViewModel
+) {
 
     val imageUrl = try {
         book.volumeInfo.imageLinks.thumbnail
@@ -191,14 +209,16 @@ fun ContentHome(navController: DestinationsNavigator, book: Item) {
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    RoundedButton("save", 90) {
-                        navController.navigate(HomeScreenDestination)
+                    RoundedButton("SAVE", 90) {
+                        viewModel.saveBook()
                     }
 
                     RoundedButton("Cancel", 90) {
                         navController.navigate(HomeScreenDestination)
                     }
                 }
+
+                Spacer(modifier = Modifier.padding(bottom = 16.dp))
             }
         }
     }

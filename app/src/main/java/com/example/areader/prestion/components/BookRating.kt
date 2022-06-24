@@ -8,12 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.StarRate
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,36 +18,13 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BookRating(
     bookRating: String,
-    liked: Boolean
 ) {
-
-    val fav = remember {
-        mutableStateOf(false)
-    }
-
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .padding(end = 6.dp)
+            .padding(end = 6.dp, top = 8.dp)
     ) {
-        IconButton(onClick = {
-            fav.value = !fav.value
-        }) {
-            if (liked)
-                Icon(
-                    imageVector = Icons.Rounded.FavoriteBorder,
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-            else
-                Icon(
-                    imageVector = Icons.Filled.Favorite,
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-        }
-
         Surface(
             modifier = Modifier
                 .height(90.dp),
