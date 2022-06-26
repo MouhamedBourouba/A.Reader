@@ -11,7 +11,7 @@ import com.example.areader.data.Dto.AuthDto.SingInResponse
 import com.example.areader.data.Dto.AuthDto.SingUpResponse
 import com.example.areader.data.request.auth.SingInAuthRequest
 import com.example.areader.data.request.auth.SingUpAuthRequest
-import com.example.areader.repository.auth.AuthRepository
+import com.example.areader.data.repository.auth.AuthRepository
 import com.example.areader.utils.Constants.TAG
 import com.example.areader.utils.TextUtils
 import dagger.hilt.android.lifecycle.HiltViewModel

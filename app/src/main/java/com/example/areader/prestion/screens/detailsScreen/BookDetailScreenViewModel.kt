@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.areader.data.Dto.GoogleBooksDto.Item
 import com.example.areader.data.Resource
 import com.example.areader.model.MBook
-import com.example.areader.repository.details.DetailsRepository
+import com.example.areader.data.repository.details.DetailsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -51,6 +51,7 @@ class BookDetailScreenViewModel @Inject constructor(
                 description = currentBook.value?.volumeInfo?.description,
                 imageUrl = currentBook.value?.volumeInfo?.imageLinks?.thumbnail ?: currentBook.value?.volumeInfo?.imageLinks?.smallThumbnail,
                 finishedReading = null,
+                pages = currentBook.value?.volumeInfo?.pageCount,
                 googleBookApiId = currentBook.value?.id
             )
 

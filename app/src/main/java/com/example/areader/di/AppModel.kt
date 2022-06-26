@@ -7,14 +7,16 @@ import android.content.SharedPreferences
 import com.example.areader.data.api.AuthApi
 import com.example.areader.data.api.BooksApi
 import com.example.areader.data.api.UserApi
-import com.example.areader.repository.auth.AuthRepository
-import com.example.areader.repository.auth.AuthRepositoryImp
-import com.example.areader.repository.details.DetailsRepository
-import com.example.areader.repository.details.DetailsRepositoryImp
-import com.example.areader.repository.home.HomeRepository
-import com.example.areader.repository.home.HomeRepositoryImp
-import com.example.areader.repository.search.SearchRepository
-import com.example.areader.repository.search.SearchRepositoryImp
+import com.example.areader.data.repository.auth.AuthRepository
+import com.example.areader.data.repository.auth.AuthRepositoryImp
+import com.example.areader.data.repository.details.DetailsRepository
+import com.example.areader.data.repository.details.DetailsRepositoryImp
+import com.example.areader.data.repository.home.HomeRepository
+import com.example.areader.data.repository.home.HomeRepositoryImp
+import com.example.areader.data.repository.search.SearchRepository
+import com.example.areader.data.repository.search.SearchRepositoryImp
+import com.example.areader.data.repository.updateBooks.UpdateRepository
+import com.example.areader.data.repository.updateBooks.UpdateRepositoryImp
 import com.example.areader.utils.Constants
 import com.example.areader.utils.Constants.BASE_URL
 import com.example.areader.utils.TextUtils
@@ -48,6 +50,12 @@ object AppModel {
     @Provides
     fun providesAuthRepository(authApi: AuthApi, sharedPreferences: SharedPreferences): AuthRepository {
         return AuthRepositoryImp(authApi, sharedPreferences)
+    }
+
+    @Singleton
+    @Provides
+    fun providesUpdateRepository(userApi: UserApi): UpdateRepository {
+        return UpdateRepositoryImp(userApi)
     }
 
 

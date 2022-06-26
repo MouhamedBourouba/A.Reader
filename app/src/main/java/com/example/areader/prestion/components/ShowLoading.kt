@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.areader.prestion.theme.AReaderTheme
 
 @Composable
-fun ShowLoading() {
+fun ShowLoading(loadingText: String = "Loading...") {
     AReaderTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -43,7 +43,7 @@ fun ShowLoading() {
 
                         CircularProgressIndicator()
                         Spacer(modifier = Modifier.width(16.dp))
-                        Text(text = "Loading...")
+                        Text(text = loadingText)
                     }
                 }
             }

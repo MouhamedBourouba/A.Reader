@@ -5,5 +5,5 @@ import com.example.areader.model.MBook
 data class UserRespond(
     val userEmail: String? = null,
     val userName: String? = null,
-    val userBooks: List<MBook>? = null
+    val userBooks: ArrayList<MBook>? = null
 )

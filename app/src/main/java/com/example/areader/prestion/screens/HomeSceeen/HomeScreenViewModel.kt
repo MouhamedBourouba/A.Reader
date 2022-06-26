@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.areader.data.Dto.AuthDto.UserRespond
 import com.example.areader.data.Resource
 import com.example.areader.model.MBook
-import com.example.areader.repository.home.HomeRepository
+import com.example.areader.data.repository.home.HomeRepository
 import com.example.areader.utils.Constants.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

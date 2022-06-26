@@ -26,6 +26,7 @@ import com.example.areader.R
 import com.example.areader.data.Dto.GoogleBooksDto.Item
 import com.example.areader.prestion.components.*
 import com.example.areader.prestion.screens.destinations.BookDetailsScreenDestination
+import com.example.areader.prestion.screens.destinations.HomeScreenDestination
 import com.example.areader.prestion.theme.AReaderTheme
 import com.example.areader.utils.Screens
 import com.ramcosta.composedestinations.annotation.Destination
@@ -63,7 +64,7 @@ fun SearchScreen(
                     },
                     navigationIcon = {
                         IconButton(onClick = {
-                            navController.navigate(Screens.Home.route)
+                            navController.navigate(HomeScreenDestination)
                         }) {
                             Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = null)
                         }

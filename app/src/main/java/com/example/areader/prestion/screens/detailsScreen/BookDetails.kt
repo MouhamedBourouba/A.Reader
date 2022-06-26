@@ -204,20 +204,11 @@ fun ContentHome(
 
                 Spacer(modifier = Modifier.padding(top = 16.dp))
 
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RoundedButton("SAVE", 90) {
-                        viewModel.saveBook()
-                    }
-
-                    RoundedButton("Cancel", 90) {
-                        navController.navigate(HomeScreenDestination)
-                    }
+                SaveCancelButtons(onCancel = {
+                    navController.navigate(HomeScreenDestination)
+                }) {
+                    viewModel.saveBook()
                 }
-
                 Spacer(modifier = Modifier.padding(bottom = 16.dp))
             }
         }

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.areader.data.Dto.GoogleBooksDto.BookDto
 import com.example.areader.data.Resource
-import com.example.areader.repository.search.SearchRepository
+import com.example.areader.data.repository.search.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay

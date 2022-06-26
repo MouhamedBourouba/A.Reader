@@ -33,6 +33,7 @@ import com.example.areader.prestion.screens.HomeSceeen.HomeScreenUiEvent
 import com.example.areader.prestion.screens.HomeSceeen.HomeScreenViewModel
 import com.example.areader.prestion.screens.destinations.AuthScreenDestination
 import com.example.areader.prestion.screens.destinations.SearchScreenDestination
+import com.example.areader.prestion.screens.destinations.UpdateBookScreenDestination
 import com.example.areader.prestion.theme.AReaderTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -127,14 +128,14 @@ fun Home(viewModel: HomeScreenViewModel, navController: DestinationsNavigator) {
             }
         ) {
 
-            HomeContent(viewModel)
+            HomeContent(viewModel, navController)
 
         }
     }
 }
 
 @Composable
-fun HomeContent(viewModel: HomeScreenViewModel) {
+fun HomeContent(viewModel: HomeScreenViewModel, navController: DestinationsNavigator) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -142,12 +143,13 @@ fun HomeContent(viewModel: HomeScreenViewModel) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
     ) {
-        MainContent(viewModel = viewModel)
+        MainContent(viewModel = viewModel, navController = navController)
     }
 }
 
 @Composable
 fun MainContent(
+    navController: DestinationsNavigator,
     viewModel: HomeScreenViewModel
 ) {
     Column(
@@ -224,8 +226,10 @@ fun MainContent(
 
                 }
             } else if (viewModel.readingList.isNotEmpty()) LazyRow() {
-                items(viewModel.readingList) {
-                    BookCard(it)
+                items(viewModel.readingList) { book ->
+                    BookCard(book) {
+                        navController.navigate(UpdateBookScreenDestination(mBook = it))
+                    }
                     Spacer(modifier = Modifier.width(16.dp))
                 }
             }
@@ -269,8 +273,10 @@ fun MainContent(
 
                 }
             } else if (viewModel.pendingList.isNotEmpty()) LazyRow() {
-                items(viewModel.pendingList) {
-                    BookCard(it)
+                items(viewModel.pendingList) { book ->
+                    BookCard(book) {
+                        navController.navigate(UpdateBookScreenDestination(mBook = it))
+                    }
                     Spacer(modifier = Modifier.width(16.dp))
                 }
             }
@@ -283,7 +289,7 @@ fun MainContent(
 @Composable
 fun BookCard(
     book: MBook,
-    onPressed: (String?) -> Unit = {}
+    onPressed: (MBook) -> Unit = {}
 ) {
     val context = LocalContext.current
     val resources = context.resources
@@ -295,7 +301,7 @@ fun BookCard(
             modifier = Modifier
                 .height(242.dp)
                 .width(202.dp)
-                .clickable { onPressed.invoke(book.googleBookApiId ?: "") },
+                .clickable { onPressed.invoke(book) },
             shape = RoundedCornerShape(29.dp),
             backgroundColor = Color.White
         ) {

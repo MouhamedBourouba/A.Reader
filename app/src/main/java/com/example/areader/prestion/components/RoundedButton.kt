@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 fun RoundedButton(
     text: String = "Reading",
     width: Int? = null,
+    isEnabled: Boolean = true,
     onPressed: () -> Unit = {},
 ) {
     Button(
@@ -33,7 +34,7 @@ fun RoundedButton(
             backgroundColor = MaterialTheme.colors.secondary,
             contentColor = Color.White
         ),
-
+        enabled = isEnabled,
         shape = RoundedCornerShape(topStart = 29.dp, bottomEnd = 29.dp)
     ) {
         Text(text = text)

@@ -16,4 +16,7 @@ interface UserApi {
         @Body book: MBook
     ): Boolean
 
+    @PUT("userBooks/updateBook/{userName}/{bookId}")
+    suspend fun updateBook(@Path("userName") userName: String, @Path("bookId") bookId: String, @Body mBook: MBook)
+
 }

@@ -56,7 +56,7 @@ fun ShowText(author: String, textSize: Int? = null, maxLines: Int? = null) {
 fun ShowBookTitleAndAuthor(bookTitle: String, author: String, titleTextSize: Int? = null, authorsTextSize: Int? = null) {
     Column {
         ShowBootTitle(bookTitle = bookTitle, titleTextSize)
-        ShowText(author = author, authorsTextSize)
+        ShowText(author = author, authorsTextSize, maxLines = 1)
     }
 }
 
