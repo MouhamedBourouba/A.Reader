@@ -13,7 +13,7 @@ screen shots
 [<img src="https://user-images.githubusercontent.com/110403890/182169311-769b8cca-b817-49a1-8344-b946776d0048.png" height="455" />](https://user-images.githubusercontent.com/110403890/182169311-769b8cca-b817-49a1-8344-b946776d0048.png)
 [<img src="https://user-images.githubusercontent.com/110403890/182169494-7980c558-d081-460d-8a64-6dbf751562b6.png"  height="455" />](https://user-images.githubusercontent.com/110403890/182169494-7980c558-d081-460d-8a64-6dbf751562b6.png)
 <br>
-<h3> what did you use </h3>
+<h3> what Did I Use </h3>
 <ui> 
   <li> jetpack compose (Android's modern toolkit for building native UI) </li>
   <li> ktor For the back end </li>
