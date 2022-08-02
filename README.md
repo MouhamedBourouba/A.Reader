@@ -1,10 +1,18 @@
 # A.Reader
 
-<p> AReader is Android app help users manage the books they are reading </p>
-
 <p> 
+AReader is Android app help users manage the books they are reading
+<br>
+<h3> app features: </h3>
+<ui> 
+  <li> saves users data in cloud </li>
+  <li> search for books </li>
+  <li> rating books </li>
+  <li> note books </li>
+  <li> user can (add, delete, update) books </li>
+</ui>
+</p>
 <h3>ScreenShots</h3>
-
             
 [<img src="https://user-images.githubusercontent.com/110403890/182169022-cf57bc54-ac3c-40e1-8ed5-d1a04f7277e2.png"  height="455" />](https://user-images.githubusercontent.com/110403890/182169022-cf57bc54-ac3c-40e1-8ed5-d1a04f7277e2.png) |
 [<img src="https://user-images.githubusercontent.com/110403890/182169077-9468fe49-af09-4628-9b0a-5219d600193a.png"  height="455" />](https://user-images.githubusercontent.com/110403890/182169077-9468fe49-af09-4628-9b0a-5219d600193a.png) |
@@ -14,12 +22,13 @@
 [<img src="https://user-images.githubusercontent.com/110403890/182169139-5896a35f-0de6-467d-b183-476d7233168e.png"  height="455" />](https://user-images.githubusercontent.com/110403890/182169139-5896a35f-0de6-467d-b183-476d7233168e.png) |
 [<img src="https://user-images.githubusercontent.com/110403890/182169494-7980c558-d081-460d-8a64-6dbf751562b6.png"  height="455" />](https://user-images.githubusercontent.com/110403890/182169494-7980c558-d081-460d-8a64-6dbf751562b6.png) |
 <br>
-<h3> what Did I Use </h3>
+<h3> What I Used </h3>
 <ui> 
   <li> jetpack compose (Android's modern toolkit for building native UI) </li>
   <li> ktor For the back end </li>
+  <li> MvvM </li>
+  <li> retrofit </li>
   <li> Jwt authentication </li>
-  <li> Mongo DB </li>
   <li> Google Books Api </li>
 </ui>
 
