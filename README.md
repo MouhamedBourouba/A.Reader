@@ -30,4 +30,4 @@ A.Reader is an elegant and intuitive Android app designed to enhance your readin
 
 **Note:** GitHub account "islamdoodoo" is my old account.
 
-**Feel free to reach out to me if you have any questions or would like to collaborate on exciting projects!**
+**Feel free to reach out to me if you have any questions or would like to collaborate on exciting projects!!**
